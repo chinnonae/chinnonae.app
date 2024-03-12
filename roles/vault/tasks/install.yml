@@ -1,0 +1,20 @@
+- name: Ensure dependencies packages are installed
+  ansible.builtin.apt:
+    name: gpg,wget
+    update_cache: true
+
+- name: Install Hashicorp Keyring
+  ansible.builtin.apt_key:
+    url: "{{ vault_apt_key_url }}"
+    keyring: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    state: present
+
+- name: Add Hashicorp Repository
+  ansible.builtin.apt_repository:
+    repo: "{{ vault_apt_repo }}"
+    filename: hashicorp.list
+
+- name: Install Hashicorp vault
+  ansible.builtin.apt:
+    name: vault
+    update_cache: true

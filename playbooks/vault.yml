@@ -1,0 +1,5 @@
+- name: Install Hashicorp Vault
+  hosts: "{{ hostnames | default('all') }}"
+  become: true
+  roles:
+    - vault

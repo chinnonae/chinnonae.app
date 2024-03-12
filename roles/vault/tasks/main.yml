@@ -1,0 +1,4 @@
+---
+
+- name: Install Hashicorp Repository
+  ansible.builtin.include_tasks: install.yml
