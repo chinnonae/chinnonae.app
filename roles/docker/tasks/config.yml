@@ -1,0 +1,8 @@
+- name: Copy docker config
+  ansible.builtin.copy:
+    content: "{{ docker_config | ansible.builtin.to_json(indent=2) }}"
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+    owner: root
+    group: root
+  notify: Restart docker

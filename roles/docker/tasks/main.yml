@@ -1,0 +1,6 @@
+---
+- name: Install Docker
+  ansible.builtin.include_tasks: install.yml
+
+- name: Config Docker daemon
+  ansible.builtin.include_tasks: config.yml

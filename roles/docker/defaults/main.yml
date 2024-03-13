@@ -1,0 +1,12 @@
+---
+docker_apt_key_url: https://download.docker.com/linux/debian/gpg
+docker_apt_repo: >
+  deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
+  https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+
+docker_config:
+  live-restore: true
+  log-driver: json-file
+  log-opts:
+    max-file: "5"
+    max-size: 10m
