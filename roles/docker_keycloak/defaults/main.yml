@@ -1,0 +1,27 @@
+---
+docker_keycloak_image_url: quay.io/keycloak/keycloak
+docker_keycloak_image_tag: latest
+
+docker_keycloak_admin_username: "admin"
+docker_keycloak_admin_password: "admin"
+
+docker_keycloak_hostname: localhost
+
+docker_keycloak_pg_image_url: postgres
+docker_keycloak_pg_image_tag: latest
+docker_keycloak_pg_user_username: "keycloak"
+docker_keycloak_pg_user_password: "changeme"
+docker_keycloak_pg_data_volume: "./postgres-data"
+
+docker_keycloak_proxy_image_url: traefik
+docker_keycloak_proxy_image_tag: latest
+docker_keycloak_proxy_acme_email: ""
+docker_keycloak_proxy_cf_email: ""
+docker_keycloak_proxy_cf_token: ""
+docker_keycloak_proxy_caserver_list:
+  staging: https://acme-staging-v02.api.letsencrypt.org/directory
+  production: https://acme-v02.api.letsencrypt.org/directory
+docker_keycloak_proxy_caserver: staging
+
+docker_keycloak_project_dir: "/opt/keycloak"
+docker_keycloak_template_file: "docker-keycloak.yaml.j2"

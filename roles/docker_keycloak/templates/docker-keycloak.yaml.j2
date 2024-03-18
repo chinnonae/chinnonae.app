@@ -1,0 +1,56 @@
+# {{ ansible_managed }}
+---
+version: '3.8'
+services:
+  keycloak:
+    image: "{{ docker_keycloak_image_url }}:{{ docker_keycloak_image_tag }}"
+    environment:
+      KEYCLOAK_ADMIN: "{{ docker_keycloak_admin_username }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ docker_keycloak_admin_password }}"
+    command:
+      - start
+      - --db=postgres
+      - --db-url=jdbc:postgresql://postgres/keycloak
+      - --db-username={{ docker_keycloak_pg_user_username }}
+      - --db-password={{ docker_keycloak_pg_user_password }}
+      - --proxy-headers=forwarded
+      - --proxy=edge
+      - --hostname-strict=false
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.keycloak.rule=Host(`{{ docker_keycloak_hostname }}`)
+      - traefik.http.routers.keycloak.entrypoints=https
+      - traefik.http.routers.keycloak.tls.certresolver=dns_cf
+
+  postgres:
+    image: "{{ docker_keycloak_pg_image_url }}:{{ docker_keycloak_pg_image_tag }}"
+    environment:
+      POSTGRES_USER: "{{ docker_keycloak_pg_user_username }}"
+      POSTGRES_PASSWORD: "{{ docker_keycloak_pg_user_password }}"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "{{ docker_keycloak_pg_data_volume }}:/var/lib/postgresql/data"
+
+  proxy:
+    image: "{{ docker_keycloak_proxy_image_url }}:{{ docker_keycloak_proxy_image_tag }}"
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.http.address=:80
+      - --entrypoints.http.http.redirections.entryPoint.to=https
+      - --entrypoints.http.http.redirections.entryPoint.scheme=https
+      - --entrypoints.http.http.redirections.entryPoint.permanent=true
+      - --entrypoints.https.address=:443
+      - --certificatesresolvers.dns_cf.acme.email={{ docker_keycloak_proxy_acme_email }}
+      - --certificatesresolvers.dns_cf.acme.storage=/opt/proxy/dns_cf.acme.json
+      - --certificatesresolvers.dns_cf.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.dns_cf.acme.caserver={{ docker_keycloak_proxy_caserver_list[docker_keycloak_proxy_caserver] }}
+    environment:
+      CF_API_EMAIL: "{{ docker_keycloak_proxy_cf_email }}"
+      CF_DNS_API_TOKEN: "{{ docker_keycloak_proxy_cf_token }}"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./proxy:/opt/proxy

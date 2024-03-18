@@ -1,0 +1,7 @@
+---
+- name: Run keycloak docker compose
+  ansible.builtin.include_role:
+    name: docker_compose
+  vars:
+    docker_compose_template_file: "{{ docker_keycloak_template_file }}"
+    docker_compose_project_dir: "{{ docker_keycloak_project_dir }}"
