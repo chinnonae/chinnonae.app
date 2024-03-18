@@ -1,0 +1,5 @@
+- name: Run Docker compose
+  hosts: "{{ hostnames | default('all') }}"
+  become: true
+  roles:
+    - docker-compose

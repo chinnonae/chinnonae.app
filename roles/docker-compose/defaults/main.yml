@@ -1,0 +1,8 @@
+---
+
+docker_compose_project_dir: "/opt/docker-compose"
+docker_compose_filename: "docker-compose.yaml"
+docker_compose_file_path: "{{ docker_compose_project_dir }}/{{ docker_compose_filename }}"
+
+docker_compose_template_file: "docker-compose.yaml"
+# docker_compose_restart: false
