@@ -16,6 +16,7 @@ services:
       - --proxy-headers=forwarded
       - --hostname-strict=false
       - --hostname-url=https://{{ docker_keycloak_hostname }}
+      - --http-enabled=true
     labels:
       - traefik.enable=true
       - traefik.http.routers.keycloak.rule=Host(`{{ docker_keycloak_hostname }}`)
