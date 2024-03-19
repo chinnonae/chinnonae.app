@@ -23,5 +23,8 @@ docker_keycloak_proxy_caserver_list:
   production: https://acme-v02.api.letsencrypt.org/directory
 docker_keycloak_proxy_caserver: staging
 
-docker_keycloak_project_dir: "/opt/keycloak"
-docker_keycloak_template_file: "docker-keycloak.yaml.j2"
+docker_compose_project_dir: "/opt/keycloak"
+docker_compose_filename: "docker-keycloak.yaml.j2"
+docker_compose_file_path: "{{ docker_compose_project_dir }}/{{ docker_compose_filename }}"
+
+docker_compose_template_file: "docker-compose.yaml"

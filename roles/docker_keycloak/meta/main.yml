@@ -1,0 +1,5 @@
+dependencies:
+  - role: docker
+
+collections:
+  - "community.docker"
