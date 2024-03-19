@@ -13,7 +13,7 @@ services:
       - --db-url=jdbc:postgresql://postgres/keycloak
       - --db-username={{ docker_keycloak_pg_user_username }}
       - --db-password={{ docker_keycloak_pg_user_password }}
-      - --proxy-headers=forwarded
+      - --proxy-headers=xforwarded
       - --hostname-strict=false
       - --hostname-url=https://{{ docker_keycloak_hostname }}
       - --http-enabled=true
