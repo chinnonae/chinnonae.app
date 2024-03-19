@@ -14,8 +14,8 @@ services:
       - --db-username={{ docker_keycloak_pg_user_username }}
       - --db-password={{ docker_keycloak_pg_user_password }}
       - --proxy-headers=forwarded
-      - --proxy=edge
       - --hostname-strict=false
+      - --hostname-url=https://{{ docker_keycloak_hostname }}
     labels:
       - traefik.enable=true
       - traefik.http.routers.keycloak.rule=Host(`{{ docker_keycloak_hostname }}`)
