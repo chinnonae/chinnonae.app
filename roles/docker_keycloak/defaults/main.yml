@@ -1,6 +1,7 @@
 ---
 docker_keycloak_image_url: quay.io/keycloak/keycloak
 docker_keycloak_image_tag: latest
+docker_keycloak_restart_policy: always
 
 docker_keycloak_admin_username: "admin"
 docker_keycloak_admin_password: "admin"
