@@ -4,6 +4,7 @@ version: '3.8'
 services:
   keycloak:
     image: "{{ docker_keycloak_image_url }}:{{ docker_keycloak_image_tag }}"
+    restart: "{{ docker_keycloak_restart_policy }}"
     environment:
       KEYCLOAK_ADMIN: "{{ docker_keycloak_admin_username }}"
       KEYCLOAK_ADMIN_PASSWORD: "{{ docker_keycloak_admin_password }}"
@@ -25,6 +26,7 @@ services:
 
   postgres:
     image: "{{ docker_keycloak_pg_image_url }}:{{ docker_keycloak_pg_image_tag }}"
+    restart: "{{ docker_keycloak_restart_policy }}"
     environment:
       POSTGRES_USER: "{{ docker_keycloak_pg_user_username }}"
       POSTGRES_PASSWORD: "{{ docker_keycloak_pg_user_password }}"
@@ -46,6 +48,7 @@ services:
       - --certificatesresolvers.dns_cf.acme.storage=/opt/proxy/dns_cf.acme.json
       - --certificatesresolvers.dns_cf.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.dns_cf.acme.caserver={{ docker_keycloak_proxy_caserver_list[docker_keycloak_proxy_caserver] }}
+    restart: "{{ docker_keycloak_restart_policy }}"
     environment:
       CF_API_EMAIL: "{{ docker_keycloak_proxy_cf_email }}"
       CF_DNS_API_TOKEN: "{{ docker_keycloak_proxy_cf_token }}"
