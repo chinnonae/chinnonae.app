@@ -6,7 +6,7 @@ services:
       - traefik
       {% else %}
       []
-      {%- endif %}
+      {% endif %}
     labels:
     {%- if docker_echo_traefik_enabled %}
       traefik.enable: "true"
@@ -19,8 +19,7 @@ services:
       traefik.docker.network: "traefik"
     {% else %}
       {}
-    {%- endif %}
-
+    {% endif %}
 
 {% if docker_echo_traefik_enabled %}
 networks:
@@ -28,4 +27,3 @@ networks:
     external:
       name: traefik
 {% endif %}
-
