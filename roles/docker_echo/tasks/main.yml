@@ -1,2 +1,7 @@
 ---
-# tasks file for docker_echo
+- name: Run echo docker compose
+  ansible.builtin.include_role:
+    name: docker_compose
+  vars:
+    docker_compose_template_file: "{{ docker_echo_template_file }}"
+    docker_compose_project_dir: "{{ docker_echo_project_dir }}"
