@@ -9,10 +9,16 @@ log:
 
 accessLog:
   addInternals: true
+  format: json
 
 entryPoints:
   http:
     address: ":80"
+    redirections:
+      entryPoint:
+        to: https
+        scheme: https
+        permanent: true
   https:
     address: ":443"
 
