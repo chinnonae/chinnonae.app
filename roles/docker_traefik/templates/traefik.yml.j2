@@ -1,0 +1,26 @@
+{{ ansible_managed | comment }}
+---
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+entryPoints:
+  http:
+    address: ":80"
+  https:
+    address: ":443"
+
+api:
+  insecure: true
+  dashboard: true
+
+providers:
+  docker:
+    exposedByDefault: false
+
+certificatesResolvers:
+  http01:
+    acme:
+      httpChallenge:
+        entryPoint: http
+      storage: /letsencrypt/acme.json

@@ -1,0 +1,6 @@
+---
+docker_traefik_project_dir: "/opt/traefik"
+docker_traefik_template_file: "docker-traefik.yaml.j2"
+
+docker_traefik_image_url: traefik
+docker_traefik_image_tag: v3.0
