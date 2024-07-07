@@ -2,13 +2,13 @@ services:
   echo:
     image: "{{ docker_echo_image_url }}:{{ docker_echo_image_tag }}"
     networks:
-      {% if docker_echo_traefik_enabled %}
+      {%+ if docker_echo_traefik_enabled %}
       - traefik
-      {% else %}
+      {%+ else %}
       []
       {% endif %}
     labels:
-    {% if docker_echo_traefik_enabled %}
+    {%+ if docker_echo_traefik_enabled %}
       traefik.enable: "true"
       treafik.http.router.echo.rule: "Host(`{{ docker_echo_traefik_host }}`)"
       traefik.http.router.echo.entrypoints: "https"
@@ -17,7 +17,7 @@ services:
       traefik.http.router.echo.tls.domains[0].main: "{{ docker_echo_traefik_host }}"
       traefik.http.services.echo.loadbalancer.server.port: "8080"
       traefik.docker.network: "traefik"
-    {% else %}
+    {%+ else %}
       {}
     {% endif %}
 
