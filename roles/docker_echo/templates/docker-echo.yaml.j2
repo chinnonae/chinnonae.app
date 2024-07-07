@@ -24,6 +24,5 @@ services:
 {% if docker_echo_traefik_enabled %}
 networks:
   traefik:
-    external:
-      name: traefik
+    external: true
 {% endif %}
