@@ -2,13 +2,13 @@ services:
   echo:
     image: "{{ docker_echo_image_url }}:{{ docker_echo_image_tag }}"
     networks:
-      {% if docker_echo_traefik_enabled -%}
+      {% if docker_echo_traefik_enabled %}
       - traefik
       {% else %}
       []
       {% endif %}
     labels:
-      {%- if docker_echo_traefik_enabled %}
+      {% if docker_echo_traefik_enabled %}
       traefik.enable: "true"
       treafik.http.router.echo.rule: "Host(`{{ docker_echo_traefik_host }}`)"
       traefik.http.router.echo.entrypoints: "https"
