@@ -1,0 +1,11 @@
+---
+# defaults file for docker_echo
+
+docker_echo_project_dir: "/opt/echo"
+docker_echo_template_file: "docker-echo.yaml.j2"
+
+docker_echo_traefik_enabled: true
+# docker_echo_traefik_host: "example.org"
+
+docker_echo_image_url: "jmalloc/echo-server"
+docker_echo_image_tag: "v0.3.7"
