@@ -19,7 +19,7 @@ services:
       traefik.docker.network: "traefik"
     {% else %}
       {}
-    {% end %}
+    {% endif %}
 
 
 {% if docker_echo_traefik_enabled %}
