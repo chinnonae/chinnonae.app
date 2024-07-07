@@ -1,5 +1,5 @@
 ---
 - name: Docker Compose Restart
   community.docker.docker_compose_v2:
-    project_src: "{{ docker_traefuk_project_dir }}"
+    project_src: "{{ docker_traefik_project_dir }}"
     state: restarted
