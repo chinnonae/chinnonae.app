@@ -10,11 +10,11 @@ services:
     labels:
       {% if docker_echo_traefik_enabled -%}
       traefik.enable: "true"
-      treafik.http.router.echo.rule: "Host(`{{ docker_echo_traefik_host }}`)"
-      traefik.http.router.echo.entrypoints: "https"
-      traefik.http.router.echo.tls: "true"
-      traefik.http.router.echo.tls.certresolver: "http01"
-      traefik.http.router.echo.tls.domains[0].main: "{{ docker_echo_traefik_host }}"
+      treafik.http.routers.echo.rule: "Host(`{{ docker_echo_traefik_host }}`)"
+      traefik.http.routers.echo.entrypoints: "https"
+      traefik.http.routers.echo.tls: "true"
+      traefik.http.routers.echo.tls.certresolver: "http01"
+      traefik.http.routers.echo.tls.domains[0].main: "{{ docker_echo_traefik_host }}"
       traefik.http.services.echo.loadbalancer.server.port: "8080"
       traefik.docker.network: "traefik"
       {% else -%}
