@@ -11,4 +11,4 @@
     src: "traefik.yml.j2"
     dest: "{{ docker_traefik_project_dir }}/traefik.yml"
     mode: '0664'
-  notify: Docker restarted
+  notify: Docker Compose restarted
