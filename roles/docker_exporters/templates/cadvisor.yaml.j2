@@ -7,7 +7,7 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk:/dev/disk:ro
-    publish:
+    ports:
       - {{ docker_exporters_cadvisor_listen_address }}:8080
     privileged: true
     devices:

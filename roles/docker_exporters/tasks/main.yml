@@ -12,3 +12,4 @@
     dest: "{{ docker_exporters_project_dir }}/{{ item }}.yaml"
     mode: "0644"
   loop: "{{ docker_exporters_enabled }}"
+  notify: Docker Compose Up
