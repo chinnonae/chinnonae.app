@@ -1,6 +1,6 @@
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: "{{ docker_exporters_cadvisor_image_url }}:{{ docker_exporters_cadvisor_image_tag }}"
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
