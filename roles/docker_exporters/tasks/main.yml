@@ -11,4 +11,4 @@
     src: "{{ item }}.yaml.j2"
     dest: "{{ docker_exporters_project_dir }}/{{ item }}.yaml"
     mode: "0644"
-  loop: docker_exporters_enabled
+  loop: "{{ docker_exporters_enabled }}"
