@@ -1,0 +1,14 @@
+---
+- name: Run echo docker compose
+  ansible.builtin.include_role:
+    name: docker_compose
+  vars:
+    docker_compose_template_file: "{{ docker_exporters_template_file }}"
+    docker_compose_project_dir: "{{ docker_exporters_project_dir }}"
+
+- name: Copy exporter compose
+  ansible.builtin.template:
+    src: "{{ item }}.yaml.j2"
+    dest: "{{ docker_exporters_project_dir }}/{{ item }}.yaml"
+    mode: "0644"
+  loop: docker_exporters_enabled

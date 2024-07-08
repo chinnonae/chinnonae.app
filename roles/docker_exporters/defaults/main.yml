@@ -1,0 +1,15 @@
+---
+docker_exporters_project_dir: /opt/exporters
+docker_exporters_template_file: "docker-compose.yaml.j2"
+
+docker_exporters_enabled:
+  - node-exporter
+  - cadvisor
+
+docker_exporters_node_exporter_image_url: quay.io/prometheus/node-exporter
+docker_exporters_node_exporter_image_tag: v1.8.1
+docker_exporters_node_exporter_listen_address: "localhost:9100"
+
+docker_exporters_cadvisor_image_url: gcr.io/cadvisor/cadvisor
+docker_exporters_cadvisor_image_tag: v0.49.1
+docker_exporters_cadvisor_listen_address: "localhost:9338"

@@ -1,0 +1,10 @@
+services:
+  node_exporter:
+    image: "{{ docker_exporters_node_exporter_image_url }}{{ docker_exporters_node_exporter_image_tag }}:"
+    command:
+      - --path.rootfs=/host
+      - --web.listen-address={{ docker_exporters_node_exporter_listen_address }}
+    network_mode: host
+    pid: host
+    volumes:
+      - /:/host:ro,rslave

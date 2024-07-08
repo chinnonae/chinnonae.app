@@ -1,0 +1,4 @@
+include:
+{% for exporter in docker_exporters_enabled %}
+- {{ exporter }}.yaml
+{% endfor %}
