@@ -1,0 +1,20 @@
+---
+# defaults file for ocis
+ocis_version: 4.0.6
+ocis_download_url: https://download.owncloud.com/ocis/ocis/stable/{{ ocis_version }}/ocis-{{ ocis_version }}-linux-amd64
+
+ocis_binary_path: /usr/local/bin/ocis
+ocis_data_path: /var/lib/ocis
+ocis_config_path: /etc/ocis
+ocis_user: ocis
+ocis_group: ocis
+
+ocis_log_level: info
+ocis_bind_address: 127.0.0.1:9200
+ocis_url: https://localhost:9200
+ocis_https_insecure: true
+ocis_https_enabled: true
+
+ocis_init_admin_password: ocisadm1n
+
+ocis_envs: {}

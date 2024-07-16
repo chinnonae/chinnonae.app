@@ -1,0 +1,5 @@
+---
+- name: Look for installed ocis config
+  ansible.builtin.stat:
+    path: "{{ ocis_config_path }}/ocis.yaml"
+  register: __ocis_config

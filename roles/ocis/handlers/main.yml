@@ -1,0 +1,7 @@
+---
+# handlers file for ocis
+- name: Restart ocis
+  ansible.builtin.systemd:
+    name: ocis
+    daemon_reload: true
+    state: restarted

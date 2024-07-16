@@ -1,0 +1,68 @@
+---
+- name: Download ocis binary
+  ansible.builtin.get_url:
+    url: "{{ ocis_download_url }}"
+    dest: "{{ ocis_binary_path }}"
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Ensure ocis group exists
+  ansible.builtin.group:
+    name: "{{ ocis_group }}"
+    system: true
+
+- name: Ensure ocis user exists
+  ansible.builtin.user:
+    name: "{{ ocis_user }}"
+    shell: /sbin/nologin
+    create_home: false
+    system: true
+
+- name: Ensure directory for ocis exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ocis_user }}"
+    group: "{{ ocis_group }}"
+    mode: "0774"
+  with_items:
+    - "{{ ocis_config_path }}"
+    - "{{ ocis_data_path }}"
+
+- name: Copy ocis environment file
+  ansible.builtin.template:
+    src: ocis.env.j2
+    dest: /etc/default/ocis
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart ocis
+
+- name: Initialize ocis on first install
+  ansible.builtin.command:
+    cmd: "{{ ocis_binary_path }} init"
+  environment:
+    ADMIN_PASSWORD: "{{ ocis_init_admin_password }}"
+    OCIS_INSECURE: "{{ 'true' if ocis_https_insecure else 'false' }}"
+    OCIS_CONFIG_DIR: "{{ ocis_config_path }}"
+  when: not __ocis_config.stat.exists
+  changed_when: not __ocis_config.stat.exists
+
+- name: Ensure ocis is configure with right permission
+  ansible.builtin.file:
+    path: "{{ ocis_config_path }}/ocis.yaml"
+    owner: "{{ ocis_user }}"
+    group: "{{ ocis_group }}"
+    mode: "0600"
+    state: file
+  when: not __ocis_config.stat.exists
+
+- name: Copy systemd service file
+  ansible.builtin.template:
+    src: ocis.service.j2
+    dest: /etc/systemd/system/ocis.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart ocis

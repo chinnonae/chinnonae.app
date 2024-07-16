@@ -1,0 +1,13 @@
+[Unit]
+Description=OCIS Server
+
+[Service]
+Type=simple
+User={{ ocis_user }}
+Group={{ ocis_group }}
+EnvironmentFile=/etc/default/ocis
+ExecStart={{ ocis_binary_path }} server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
