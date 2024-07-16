@@ -1,0 +1,61 @@
+---
+# tasks file for acme.sh
+- name: Install required packages
+  ansible.builtin.apt:
+    name: git,socat,cron,curl
+    state: present
+    update_cache: true
+
+- name: Clone acme.sh
+  ansible.builtin.git:
+    repo: https://github.com/acmesh-official/acme.sh
+    dest: "{{ acmesh_dir }}"
+    version: "{{ acmesh_version }}"
+  register: __git_acmesh
+
+- name: Install acme.sh
+  ansible.builtin.command:
+    cmd: >
+      ./acme.sh
+      --install
+      {{ "-m " + acmesh_email if acmesh_email != "" else "" }}
+    chdir: "{{ acmesh_dir }}"
+  when: __git_acmesh.before != __git_acmesh.after
+  changed_when: __git_acmesh.before != __git_acmesh.after
+
+- name: Issue certificate (standalone mode)
+  ansible.builtin.command:
+    cmd: >
+      ./acme.sh
+      --issue
+      {{ ["-d "] | product(acmesh_domains) | map("join") | list | join(" ") }}
+      --standalone
+      {{ "--staging" if acmesh_issue_staging else "--server letsencrypt" }}
+      {{ "--force" if acmesh_issue_force else "" }}
+      {{ "--debug" if acmesh_debug else "" }}
+      {{ acmesh_issue_extra_flags }}
+    chdir: "{{ acmesh_dir }}"
+  when: acmesh_issue_mode == "standalone"
+  register: issue_result
+  changed_when: (issue_result.rc == 0 and "Cert success" in issue_result.stdout) or acmesh_install_force_reinstall
+  failed_when: issue_result.rc != 0 and "Domains not changed" not in issue_result.stdout
+  notify: Install cert
+
+- name: Issue certificate (DNS mode)
+  ansible.builtin.command:
+    cmd: >
+      ./acme.sh
+      --issue
+      {{ ["-d "] | product(acmesh_domains) | map("join") | list | join(" ") }}
+      --dns {{ acmesh_dns_hook }}
+      {{ "--staging" if acmesh_issue_staging else "--server letsencrypt" }}
+      {{ "--force" if acmesh_issue_force else "" }}
+      {{ "--debug" if acmesh_debug else "" }}
+      {{ acmesh_issue_extra_flags }}
+    chdir: "{{ acmesh_dir }}"
+  environment: "{{ acmesh_issue_environment }}"
+  when: acmesh_issue_mode == "dns"
+  register: issue_dns_result
+  changed_when: (issue_dns_result.rc == 0 and "Cert success" in issue_dns_result.stdout) or acmesh_install_force_reinstall
+  failed_when: issue_dns_result.rc != 0 and "Domains not changed" not in issue_dns_result.stdout
+  notify: Install cert

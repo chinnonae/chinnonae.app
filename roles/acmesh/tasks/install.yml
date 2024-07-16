@@ -1,0 +1,29 @@
+---
+- name: Ensure install key directory exists
+  ansible.builtin.file:
+    name: "{{ acmesh_install_key_path | dirname }}"
+    state: directory
+    mode: "0600"
+  when: acmesh_install_key_path != ""
+- name: Ensure install fullchain directory exists
+  ansible.builtin.file:
+    name: "{{ acmesh_install_fullchain_path | dirname }}"
+    state: directory
+    mode: "0644"
+  when: acmesh_install_fullchain_path != ""
+- name: Install acme cert
+  ansible.builtin.command:
+    cmd: >
+      ./acme.sh
+      --install-cert
+      -d {{ acmesh_domains | first }}
+      --key-file {{ acmesh_install_key_path }}
+      --fullchain-file {{ acmesh_install_fullchain_path }}
+      --reloadcmd "{{ acmesh_install_reload_command }}"
+      {{ "--debug" if acmesh_debug else "" }}
+      {{ acmesh_install_extra_flags }}
+    chdir: "{{ acmesh_dir }}"
+  register: install_cert_result
+  when: acmesh_install_key_path != "" or acmesh_install_fullchain_path != ""
+  failed_when: install_cert_result.rc != 0 and "Reload error for" not in install_cert_result.stderr
+  changed_when: issue_result.changed or issue_dns_result.changed or acmesh_install_force_reinstall

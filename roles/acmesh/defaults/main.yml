@@ -1,0 +1,24 @@
+---
+# defaults file for acme.sh
+acmesh_version: 3.0.7
+
+acmesh_email: ""
+
+acmesh_domains: []
+acmesh_debug: false
+
+acmesh_issue_mode: ""
+acmesh_issue_staging: true
+acmesh_issue_force: false
+acmesh_issue_extra_flags: ""
+acmesh_issue_enviroment: {}
+acmesh_dns_hook: dns_cf
+
+# Provide variable below to install cert
+# acmesh_install_key_path: ""
+# acmesh_install_fullchain_path: ""
+acmesh_install_reload_command: /bin/true
+acmesh_install_extra_flags: ""
+acmesh_install_force_reinstall: false
+
+acmesh_dir: /opt/acme.sh

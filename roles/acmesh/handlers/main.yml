@@ -1,0 +1,4 @@
+---
+# handlers file for acme.sh
+- name: Install cert
+  ansible.builtin.include_tasks: tasks/install.yml
