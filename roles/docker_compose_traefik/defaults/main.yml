@@ -1,0 +1,67 @@
+docker_compose_traefik_image_url: traefik
+docker_compose_traefik_image_tag: v3.0
+
+docker_compose_traefik_cf_dns_api_token: ""
+
+docker_compose_traefik_files:
+  docker-compose.yaml:
+    services:
+      traefik:
+        image: "{{ docker_compose_traefik_image_url }}:{{ docker_compose_traefik_image_tag }}"
+        ports:
+          - 80:80
+          - 443:443
+          - 8080:8080
+        environment:
+          - CF_DNS_API_TOKEN="{{ docker_compose_traefik_cf_dns_api_token }}"
+        configs:
+          - source: traefik
+            target: /etc/traefik/traefik.yml
+        networks:
+          - traefik
+        volumes:
+          - traefik-data:/data
+          - /var/run:/host/var/run
+
+    configs:
+      traefik:
+        content: |
+          api:
+            insecure: true
+            dashboard: true
+
+          log:
+            level: INFO
+
+          providers:
+            docker:
+              endpoint: "unix:///host/var/run/docker.sock"
+              exposedByDefault: false
+
+          accessLog:
+            format: json
+
+          entryPoints:
+            http:
+              address: ":80"
+              http:
+                encodeQuerySemicolons: false
+                redirections:
+                  entryPoint:
+                    to: https
+            https:
+              address: ":443"
+
+          certificatesResolvers:
+            letsencrypt:
+              acme:
+                storage: /data/letsencrypt.json
+                dnsChallenge:
+                  provider: cloudflare
+
+    volumes:
+      traefik-data: {}
+
+    networks:
+      traefik:
+        name: traefik

@@ -1,0 +1,5 @@
+dependencies:
+  - role: docker_compose_v2
+    vars:
+      docker_compose_v2_project_name: "traefik"
+      docker_compose_v2_files: "{{ docker_compose_traefik_files }}"
