@@ -1,0 +1,14 @@
+---
+- name: Make sure project dir exists
+  ansible.builtin.file:
+    path: "{{ docker_compose_v2_project_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy docker-compose file
+  ansible.builtin.template:
+    src: docker_compose_v2.yaml.j2
+    dest: "{{ docker_compose_v2_project_dir }}/{{ item.key }}"
+    mode: "0744"
+  notify: Docker Compose Up
+  with_dict: "{{ docker_compose_v2_files }}"

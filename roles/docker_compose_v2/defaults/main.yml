@@ -1,0 +1,8 @@
+---
+
+docker_compose_v2_project_name: "docker-compose"
+docker_compose_v2_project_dir: "/opt/{{ docker_compose_v2_project_name }}"
+
+docker_compose_v2_files:
+  docker-compose.yaml:
+    services: {}
