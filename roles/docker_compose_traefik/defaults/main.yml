@@ -1,5 +1,5 @@
 docker_compose_traefik_image_url: traefik
-docker_compose_traefik_image_tag: v3.0
+docker_compose_traefik_image_tag: v3
 
 docker_compose_traefik_cf_dns_api_token: ""
 
